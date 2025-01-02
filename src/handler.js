@@ -97,7 +97,7 @@ export const deleteNoteByIdHandler = (request, h) => {
   if (index === -1) {
     const response = h.response({
       status: 'fail',
-      messages: 'Gagal memperbarui catatan. Id tidak ditemukan'
+      messages: 'Gagal menghapus catatan. Id tidak ditemukan'
     });
     response.code(404);
     return response;
