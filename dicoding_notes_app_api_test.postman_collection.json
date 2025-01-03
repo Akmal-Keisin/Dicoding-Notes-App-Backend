@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "7dbbc295-2ad9-4606-be58-13bfdb7076a5",
+		"name": "Dicoding Notes App API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18961731"
+	},
+	"item": [
+		{
+			"name": "Insert Note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should have 201 status code\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should accept application/json\", () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('Response body should an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Response should have correct property and value\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('status');\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('message');\r",
+							"    pm.expect(responseJson.message).to.equals('Catatan berhasil ditambahkan');\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('data');\r",
+							"    pm.expect(responseJson,data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body data should have noteId property and not equals to null\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.own.property('noteId');\r",
+							"    pm.expect(data.noteId).to.not.equals('');\r",
+							"\r",
+							"    pm.environment.set('NOTES_ID', data.noteId);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Hello World\",\r\n    \"tags\": [\r\n        \"Tag1\", \"Tag2\", \"Tag3\"\r\n    ],\r\n    \"body\": \"Lorem ipsum dolor\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/notes",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Notes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should have 201 status code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should accept application/json\", () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('Response body should an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Response should have correct property and value\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('status');\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('data');\r",
+							"    pm.expect(responseJson,data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body data should have noteId property and not equals to null\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.have.ownProperty('notes');\r",
+							"    pm.expect(data.notes).to.be.an('array');\r",
+							"    pm.expect(data.notes).lengthOf.at.least(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/notes",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Note By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should have 201 status code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should accept application/json\", () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('Response body should an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Response body should have correct property and value\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('status');\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('data');\r",
+							"    pm.expect(responseJson,data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response data should have note property\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.own.property('note');\r",
+							"    pm.expect(data.note).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body data note should have id, title, body, tags property and their correct value\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"    const { note } = data;\r",
+							"\r",
+							"    const title = \"Hello World\";\r",
+							"    const tags = [\"Tag1\", \"Tag2\", \"Tag3\"];\r",
+							"    const body = \"Lorem ipsum dolor\";\r",
+							"\r",
+							"    pm.expect(note).to.have.ownProperty('id');\r",
+							"    pm.expect(note.id).to.be.an('string');\r",
+							"\r",
+							"    pm.expect(note).to.have.ownProperty('title');\r",
+							"    pm.expect(note.title).to.be.an('string');\r",
+							"    pm.expect(note.title).equals(title);\r",
+							"\r",
+							"    pm.expect(note).to.have.ownProperty('body');\r",
+							"    pm.expect(note.body).to.be.an('string');\r",
+							"    pm.expect(note.body).equals(body);\r",
+							"\r",
+							"    pm.expect(note).to.have.ownProperty('tags');\r",
+							"    pm.expect(note.tags).to.be.an('array');\r",
+							"    pm.expect(note.tags).eql(tags);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/notes/{{NOTES_ID}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"notes",
+						"{{NOTES_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should have 201 status code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should accept application/json\", () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('Response body should an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Response body should have correct property and value\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('status');\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('message');\r",
+							"    pm.expect(responseJson.message).to.equals('Catatan berhasil diperbarui');\r",
+							"});\r",
+							"\r",
+							"pm.test('when request the updated note', () => {\r",
+							"    const noteId = pm.environment.get('NOTES_ID');\r",
+							"    pm.sendRequest(`http://localhost:5000/notes/${noteId}`, (error, response) => {\r",
+							"        if (!error) {\r",
+							"            pm.test('Then the updated note should contain the latest data', () => {\r",
+							"                const responseJson = response.json();\r",
+							"                const { data: { note } } = responseJson;\r",
+							"\r",
+							"                const title = \"Hello World Edited\";\r",
+							"                const tags = [\"Tag1 Edited\", \"Tag2 Edited\", \"Tag3 Edited\"];\r",
+							"                const body = \"Lorem ipsum dolor Edited\";\r",
+							"\r",
+							"                pm.expect(note).to.have.ownProperty('id');\r",
+							"                pm.expect(note.id).to.be.an('string');\r",
+							"\r",
+							"                pm.expect(note).to.have.ownProperty('title');\r",
+							"                pm.expect(note.title).to.be.an('string');\r",
+							"                pm.expect(note.title).equals(title);\r",
+							"\r",
+							"                pm.expect(note).to.have.ownProperty('body');\r",
+							"                pm.expect(note.body).to.be.an('string');\r",
+							"                pm.expect(note.body).equals(body);\r",
+							"\r",
+							"                pm.expect(note).to.have.ownProperty('tags');\r",
+							"                pm.expect(note.tags).to.be.an('array');\r",
+							"                pm.expect(note.tags).eql(tags);\r",
+							"            });\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Hello World Edited\",\r\n    \"tags\": [\r\n        \"Tag1 Edited\", \"Tag2 Edited\", \"Tag3 Edited\"\r\n    ],\r\n    \"body\": \"Lorem ipsum dolor Edited\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/notes/{{NOTES_ID}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"notes",
+						"{{NOTES_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should have 201 status code\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should accept application/json\", () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('Response body should an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Response body should have correct property and value\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('status');\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJson).to.own.property('message');\r",
+							"    pm.expect(responseJson.message).to.equals('Catatan berhasil dihapus');\r",
+							"});\r",
+							"\r",
+							"pm.test('when request the updated note', () => {\r",
+							"    const noteId = pm.environment.get('NOTES_ID');\r",
+							"    pm.sendRequest(`http://localhost:5000/notes/${noteId}`, (error, response) => {\r",
+							"        if (!error) {\r",
+							"            pm.test('The deleted note should not be found', () => {\r",
+							"                pm.expect(response.code).to.equals(404);\r",
+							"                const responseJson = response.json();\r",
+							"                \r",
+							"                pm.expect(responseJson.status).to.equals('fail');\r",
+							"                pm.expect(responseJson.message).to.equals('Catatan tidak ditemukan');\r",
+							"            });\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/notes/{{NOTES_ID}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"notes",
+						"{{NOTES_ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
